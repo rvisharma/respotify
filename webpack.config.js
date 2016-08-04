@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const WebpackNotifierPlugin = require('webpack-notifier');
 
 const PATHS = {
     app: './src/index.js',
@@ -20,17 +21,33 @@ module.exports = {
     devServer: {
         contentBase: PATHS.dist
     },
+    eslint: {
+        emitWarning: true
+    },
     module: {
+        preLoaders: [
+            {
+                test: /\.(js|jsx)?$/,
+                loaders: ["eslint-loader"],
+                exclude: /node_modules/
+            }
+        ],
         loaders: [
             {
                 test: /\.html$/,
                 loader: "file?name=[name].[ext]"
             },
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 loaders: ["react-hot", "babel-loader"]
             }
         ]
-    }
+    },
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
+    plugins: [
+        new WebpackNotifierPlugin()
+    ]
 };
