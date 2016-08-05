@@ -1,26 +1,36 @@
 import React from 'react';
+import Album from './Album';
 
 const AlbumList = (props) => {
-    const albums = props.albums.map(album => {
-        return (
-            <li key={album.id}>
-                <img
-                    src={album.images[1].url}
-                    alt={album.name}
-                    />
-            </li>
-        );
-    });
+    const albums = props.albums.map(album =>
+        <Album album={album} key={album.id} getTracks={props.getTracks} />);
 
     return (
-        <ul>
-            {albums}
-        </ul>
+        <div className="col-md-4" style={AlbumList.styles.div}>
+            <ul style={AlbumList.styles.ul}>
+                {albums}
+            </ul>
+        </div>
     );
+};
+
+AlbumList.styles = {
+    div: {
+        width: 370,
+        marginLeft: 30,
+        textAlign: 'right',
+        maxHeight: '85vh',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+    },
+    ul: {
+        listStyle: 'none',
+    },
 };
 
 AlbumList.propTypes = {
     albums: React.PropTypes.array.isRequired,
+    getTracks: React.PropTypes.func.isRequired,
 };
 
 export default AlbumList;
